@@ -1,0 +1,3 @@
+---
+# defaults file for role-create-linuxuser
+default_sudo_nopass: true

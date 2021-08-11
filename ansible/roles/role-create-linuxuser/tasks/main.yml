@@ -1,0 +1,62 @@
+---
+# tasks file for role-create-linuxuser
+- name: Add user | Debian based OS
+  user:
+    name: "{{ newusername }}"
+    groups: sudo,shadow
+    shell: /bin/bash
+    append: yes
+    generate_ssh_key: yes
+    ssh_key_bits: 4096
+    ssh_key_file: .ssh/id_rsa
+  when: ansible_os_family == "Debian"
+
+- name: Add user | Redhat based OS
+  user:
+    name: "{{ newusername }}"
+    groups: wheel
+    shell: /bin/bash
+    append: yes
+    generate_ssh_key: yes
+    ssh_key_bits: 4096
+    ssh_key_file: .ssh/id_rsa
+  when: ansible_os_family == "RedHat"
+
+- name: Sudo | add to sudoers file and validate
+  lineinfile:
+    dest: /etc/sudoers
+    state: present
+    regexp: '^{{ newusername }} '
+    line: "{{ newusername }} ALL=(ALL) {{ 'NOPASSWD:' if ( default_sudo_nopass|d(true)|bool ) else '' }}ALL"
+    validate: 'visudo -cf %s'
+  environment:
+    PATH: /usr/sbin:/usr/local/sbin:/sbin
+#environment fixes Redhat issue of hard-coded path to visudo
+
+- name: SSH Keys | Add authorized key for ssh key authentication
+  authorized_key:
+    user: "{{ newusername }}"
+    state: present
+    key: "{{ lookup('file', lookup('env','HOME') + '/.ssh/id_rsa.pub') }}"
+
+- name: Remove .bash_profile
+  ansible.builtin.file:
+    path: "{{ lookup('file', lookup('env','HOME') + '/.bash_profile'}}"
+    state: absent
+
+- name: Create .bash_profile
+  ansible.builtin.file:
+    path: "{{ lookup('file', lookup('env','HOME') + '/.bash_profile'}}"
+    state: touch
+
+- name: Add line to .bash_profile
+    lineinfile:
+    dest: "{{ lookup('file', lookup('env','HOME') + '/.bash_profile'}}"
+    state: present'
+    line: "eval $(ssh-agent)"
+
+- name: Add line to .bash_profile
+    lineinfile:
+    dest: "{{ lookup('file', lookup('env','HOME') + '/.bash_profile'}}"
+    state: present
+    line: "ssh-add ~/.ssh/id_rsa"

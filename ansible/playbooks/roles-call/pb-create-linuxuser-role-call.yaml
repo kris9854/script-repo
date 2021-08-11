@@ -1,0 +1,14 @@
+---
+ #ansible-playbook create-user-ansible.yml --ask-pass --become --become-method=su --ask-become-pass --extra-vars "inventory=all-dev ansible_ssh_user=username123 username=ansible" -i hosts
+- hosts: local
+  become: yes
+  vars:
+    - become_method: su
+    - ansible_ssh_user: root
+    - newusername: newuser
+    - mail: "{{ newuser }}@SOMEMAIL.com"
+    - defaultgroup: Somegroup
+  roles:
+  - create-user-ansible
+
+
