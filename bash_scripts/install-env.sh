@@ -2,6 +2,7 @@
 echo "Upgrading and updating machine"
 sudo apt update -y
 apt-get upgrade -y
+sudo apt-get -y install python3
 echo "installing ansible for Ubuntu"
 sudo apt install software-properties-common -y 
 sudo add-apt-repository --yes --update ppa:ansible/ansible
