@@ -16,7 +16,7 @@ elif type lsb_release >/dev/null 2>&1; then
     echo "installing ansible for Ubuntu"
     sudo apt install software-properties-common -y 
     sudo add-apt-repository --yes --update ppa:ansible/ansible
-    sudo apt install ansible
+    sudo apt install ansible -y
     echo "installing pip and paramiko"
     sudo apt-get -y install python3-pip
     sudo pip3 install paramiko
