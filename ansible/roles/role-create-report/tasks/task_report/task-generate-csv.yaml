@@ -1,0 +1,41 @@
+# Create CSV file with results #
+    - name: Remove CSV
+      file:
+        dest: {{inventory_dir}}/output/reports/fact-report.csv
+        state: absent
+      run_once: true
+
+# Create CSV file with results #
+    - name: Create CSV
+      file:
+        dest: {{inventory_dir}}/output/reports/fact-report.csv
+        state: touch
+      run_once: true
+    
+    - name: add entry
+      lineinfile:
+        path: {{inventory_dir}}/output/reports/fact-report.csv
+        insertbefore: EOF
+        line: {{ Hostname }};{{ Some_thing_1 }};{{ Some_thing_2 }}             
+
+# Format CSV #
+    - name: Format CSV File Clean Up
+      replace:
+        path: {{inventory_dir}}/output/reports/fact-report.csv
+        regexp: '\[|\]|"'
+        replace: ''      
+
+# Format CSV #
+    - name: Format CSV File Clean Up
+      replace:
+        path: {{inventory_dir}}/output/reports/fact-report.csv
+        regexp: "'"
+        replace: ''
+
+# Add Header Row to CSV #
+    - name: Header Row
+      lineinfile:
+        path: {{inventory_dir}}/output/reports/fact-report.csv
+        insertbefore: BOF
+        line: Hostname;Some_thing_1;Some_thing_2
+      run_once: true

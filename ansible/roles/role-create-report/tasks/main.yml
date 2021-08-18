@@ -2,3 +2,12 @@
 # tasks file for role-create-report
 - name: include task for facts gathering
   include_tasks: task-generate-facts.yaml
+  ignore_errors: true
+
+# tasks file for role-create-report
+- name: include task for facts gathering
+  include_tasks: task_report/task-generate-csv.yaml
+
+# tasks file for role-create-report
+- name: include task for facts gathering
+  include_tasks: task_report/task-generate-markdown.yaml

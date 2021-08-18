@@ -1,0 +1,59 @@
+# delete Markdown file with results #
+    - name: Remove Markdown
+      file:
+        dest: {{inventory_dir}}/output/reports/fact-report.md 
+        state: absent
+      run_once: true
+
+# Create Markdown file #
+    - name: Create Markdown
+      file:
+        dest: {{inventory_dir}}/output/reports/fact-report.md 
+        state: touch
+      run_once: true
+
+# Write data to markdown file #
+    - name: add entry
+      lineinfile:
+        path: {{inventory_dir}}/output/reports/fact-report.csv
+        insertbefore: EOF
+        line: | {{ Hostname }} | {{ Some_thing_1 }} | {{ Some_thing_2 }} |  
+      
+# Format Markdown #
+    - name: Format Markdown File New Lines
+      replace:
+        path: {{inventory_dir}}/output/reports/fact-report.md
+        regexp: '],'
+        replace: ']\n'
+
+# Format Markdown #
+    - name: Format Markdown File Clean Up
+      replace:
+        path: {{inventory_dir}}/output/reports/fact-report.md
+        regexp: '\[|\]|"'
+        replace: ''      
+
+# Format Markdown #
+    - name: Format Markdown File Commas to Pipes
+      replace:
+        path: {{inventory_dir}}/output/reports/fact-report.md
+        regexp: ','
+        replace: ' | '
+        
+# Format Markdown #
+    - name: Format Markdown File Clean Up
+      replace:
+        path: {{inventory_dir}}/output/reports/fact-report.md
+        regexp: "'"
+        replace: ''
+
+# Add Header Rows to Markdown #
+    - name: Header Row
+      lineinfile:
+        path: {{inventory_dir}}/output/reports/fact-report.md
+        insertbefore: BOF
+        line: "{{ item.property }}"
+      with_items:
+        - { property: '| -------- | ------------ | ------------ |' }
+        - { property: '| Hostname | Some_thing_1 | Some_thing_2 |' }     
+      run_once: true
