@@ -1,4 +1,7 @@
 ---
 - name: Generate facts
   set_facts:
-    
+    Hostname: {{ inventory_hostname }}
+    Some_thing_1: {{ inventory_hostname }}
+    Some_thing_2: "Im_data"
+  ignore_errors: True

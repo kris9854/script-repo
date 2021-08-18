@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <link rel="stylesheet" href="html_report_style.css">
+</head>
+<body>
+<table>
+    <thead>
+        <tr>
+            <th>Hostname</th>
+            <th>Some_thing_1</th>
+            <th>Some_thing_2</th>
+        </tr>
+    </thead>
+    <tbody>
+{% for device in ansible_play_hosts_all %}
+        <tr>
+            <td {% if Hostname != Some_thing_1 %}style="background:yellow;"{% endif %}>{{ Hostname }}</td>
+            <td>{{ Some_thing_1 }}</td>
+            <td>{{ Some_thing_2 }}</td>
+        </tr>
+{% endfor %}
+    </tbody>
+</table>
+
+</body>
+</html>

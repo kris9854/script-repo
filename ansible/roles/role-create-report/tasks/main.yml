@@ -1,2 +1,4 @@
 ---
 # tasks file for role-create-report
+- name: include task for facts gathering
+  include_tasks: task-generate-facts.yaml
