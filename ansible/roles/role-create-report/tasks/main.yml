@@ -5,9 +5,15 @@
   ignore_errors: true
 
 # tasks file for role-create-report
-- name: include task for facts gathering
+- name: include task for CSV report creation
   include_tasks: task_report/task-generate-csv.yaml
 
 # tasks file for role-create-report
-- name: include task for facts gathering
+- name: include task for markdown report creation
   include_tasks: task_report/task-generate-markdown.yaml
+
+
+# tasks file for role-create-report
+- name: include task for HTML report creation
+  include_tasks: task_report/task-generate-html.yaml
+  

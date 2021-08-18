@@ -1,0 +1,7 @@
+---    
+    - name: create HTML report
+      template:
+        src: {{inventory_dir}}/templates/html_report/html_report.j2
+        dest: "{{inventory_dir}}/output/reports/fact-report.html"
+      delegate_to: localhost
+      run_once: true
